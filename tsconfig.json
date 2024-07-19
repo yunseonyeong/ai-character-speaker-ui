@@ -14,7 +14,13 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@image/*": ["public/image/*"]
+      "@image/*": ["public/image/*"],
+      "@common/*": ["src/components/common/*"],
+      "@pages/*": ["src/pages/*"],
+      "@styles/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"],
+      "@utils": ["src/utils"],
+      "@mp3/*": ["public/mp3/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
