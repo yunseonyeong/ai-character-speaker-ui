@@ -14,8 +14,8 @@ const notoSansKr = Noto_Sans_KR({
 
 const LayoutDefault = ({ children }: { children: ReactElement; }) => {
   return (
-    <PageContainer className={notoSansKr.className}>
-      <DesktopContainer/>
+    <PageContainer className={`${notoSansKr.className}`}>
+      <DesktopContainer />
       <MobileContainer>
         {children}
       </MobileContainer>
@@ -39,6 +39,7 @@ const MobileContainer = styled.div`
     box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 8px;
     max-width: 428px !important;
     padding: 0px 30px;
+    position: relative;
 `;
 
 const DesktopContainer = styled.div`

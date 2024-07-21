@@ -7,18 +7,18 @@ interface RegisterContentProps {
   onChangeVoiceContent: (e: any) => void;
 }
 
-const RegisterContent = ({character, voiceContent, onChangeVoiceContent}: RegisterContentProps) => {
-  
+const RegisterContent = ({ character, voiceContent, onChangeVoiceContent }: RegisterContentProps) => {
+
   return (
     <>
-    <Title>목소리 내용을 입력하세요</Title>
-    <SubTitle>{character} 목소리로 아래 내용을 재생해요</SubTitle>
-    <ContentInput value={voiceContent} onChange={onChangeVoiceContent} placeholder="내용을 입력하세요"/>
+      <Title>목소리 내용을 입력하세요</Title>
+      <SubTitle>{character} 목소리로 아래 내용을 재생해요</SubTitle>
+      <ContentInput value={voiceContent} onChange={onChangeVoiceContent} placeholder="내용을 입력하세요" />
     </>
-  )
-}
+  );
+};
 
-export default RegisterContent
+export default RegisterContent;
 
 const Title = styled.div`
   display: flex;
