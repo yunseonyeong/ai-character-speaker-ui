@@ -2,7 +2,7 @@ import clock from '@image/clock.png';
 import { GreyScale } from "@utils/constant/color";
 import { addMonths } from "date-fns";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import ReactDatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import { styled } from "styled-components";
@@ -11,12 +11,11 @@ import { styled } from "styled-components";
 const RegisterSchedule = (props: any) => {
   const datepickerRef = useRef(null);
   
-  const [formattedTime, setFormattedTime] = useState<Date>(new Date());
   
   const handleTimeChange = (selectedTime: any) => {
     const hours = selectedTime.getHours();
     const minutes = selectedTime.getMinutes();
-    const fTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;// 출력: "12:00"
+    const fTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
 
     const timeStringToDate = (timeString: string): Date => {
       const today = new Date();
@@ -24,8 +23,8 @@ const RegisterSchedule = (props: any) => {
       const dateWithTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
       return dateWithTime;
     };
-    const st = timeStringToDate(fTime); // timepicker 박스에 표현해줄 변수
-    setFormattedTime(st)
+    const st = timeStringToDate(fTime); 
+    props.setSelectedTime(st)
   };
 
   return (
@@ -45,10 +44,10 @@ const RegisterSchedule = (props: any) => {
         dateFormat="yyyy-MM-dd"
         placeholderText="선택하세요"
         id="datepicker1"
-        selected={props.selectedDate} // 선택된 날짜를 ReactDatePicker에 전달
+        selected={props.selectedDate} 
         onChange={(date) => props.setSelectedDate(date as Date)}
-        minDate={new Date()} // 오늘 이전의 날짜 선택 불가능하게 설정
-        maxDate={addMonths(new Date(), 1)} // 한 달 후의 날짜 선택 불가능하게 설정
+        minDate={new Date()}
+        maxDate={addMonths(new Date(), 1)} 
       />
     </div>
       </Column>
@@ -60,7 +59,7 @@ const RegisterSchedule = (props: any) => {
         shouldCloseOnSelect
         placeholderText="선택하세요"
         id="datepicker2"
-        selected={formattedTime}
+        selected={props.selectedTime}
         showTimeSelect
         showTimeSelectOnly
         timeIntervals={30}

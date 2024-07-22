@@ -18,6 +18,10 @@ export function getFormattedUnixDateTime(timestamp: number) {
     return `${year}-${month}-${date} (${daykr[day]}) ${ampm} ${hours}:${minutes}`;
 }
 
+export function datetimeToTimestamp(dateTime: string) {
+    return Date.parse(dateTime) / 1000;
+}
+
 export const getImgUrl = (character: string) => {
     switch (character) {
         case 'loopy':

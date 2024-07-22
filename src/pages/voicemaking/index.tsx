@@ -7,7 +7,7 @@ import SpongeBob from '@image/spongebob.png';
 import { getCharacterName } from "@utils/common-util";
 import { BackgroundColor, Primary } from "@utils/constant/color";
 import { useRouter } from "next/router";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import CheckSchedule from "src/components/voicemaking/CheckSchedule";
 import CheckVoice from "src/components/voicemaking/CheckVoice";
 import Complete from "src/components/voicemaking/Complete";
@@ -38,15 +38,19 @@ const VoiceMaking = () => {
       src: Jjangu
     }
   ];
+  let today = new Date()
+  const [hours, minutes] = '00:00'.split(":").map(Number)
+  const dateWithTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes)
   const [selectedCharacter, setSelectedCharacter] = useState(characters[0]);
   const [voiceContent, onChangeVoiceContent] = useInput('');
-  const [voiceSchedule, setVoiceSchedule] = useState();
+  const [voiceSchedule, setVoiceSchedule] = useState<any>('');
   const router = useRouter();
 
+  const [selectedTime, setSelectedTime] = useState<Date>(dateWithTime);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date()); // 현재 날짜를 디폴트 값으로!  
-  const [selectedTime, setSelectedTime] = useState<any>();
   const [completeSubtitle, setCompleteSubtitle] = useState('');
   const [completeTitle, setCompleteTitle] = useState('');
+
   const handleNextBtn = (offset: number) => {
     setStep((prev) => prev + offset);
   };
@@ -70,6 +74,24 @@ const VoiceMaking = () => {
     handleNextBtn(1);
   };
 
+  useEffect(()=>{
+    const daykr = ["일", "월", "화", "수", "목", "금", "토"];
+
+    const year = selectedDate.getFullYear();
+    const month = selectedDate.getMonth();
+    const date = selectedDate.getDate();
+    const day = selectedDate.getDay();
+    let hours = selectedTime.getHours();
+    const minutes = selectedTime.getMinutes();
+    const ampm = hours < 12 ? "오전" : "오후";
+    hours = hours > 12 ? hours - 12 : hours;
+    
+
+    let value = `${year}-${month}-${date} (${daykr[day]}) ${ampm} ${hours<10?`0${hours}`:hours}:${minutes<10?`0${minutes}`:minutes}`
+
+    setVoiceSchedule(value)
+  }, [selectedDate, selectedTime])
+
 
   return (
     <>
@@ -84,13 +106,13 @@ const VoiceMaking = () => {
             step === 1 && <RegisterContent character={getCharacterName(selectedCharacter.type)} voiceContent={voiceContent} onChangeVoiceContent={onChangeVoiceContent} />
           }
           {
-            step === 2 && <RegisterSchedule selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+            step === 2 && <RegisterSchedule selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedTime={selectedTime} setSelectedTime={setSelectedTime}/>
           }
           {
-            step === 3 && <CheckVoice />
+            step === 3 && <CheckVoice voiceContent={voiceContent} character={selectedCharacter}/>
           }
           {
-            step === 4 && <CheckSchedule />
+            step === 4 && <CheckSchedule voiceContent={voiceContent} voiceSchedule={voiceSchedule} character={selectedCharacter}/>
           }
           {
             step === 5 && <Complete title={completeTitle} subtitle={completeSubtitle} />

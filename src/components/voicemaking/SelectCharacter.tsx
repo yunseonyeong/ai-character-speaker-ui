@@ -10,7 +10,7 @@ import useSound from "use-sound";
 
 const SelectCharacter = ({characters, selectedCharacter, setSelectedCharacter}: {characters: any[]; selectedCharacter: any; setSelectedCharacter: React.Dispatch<React.SetStateAction<any>>}
 ) => {
-  
+  const [play] = useSound(jjangu)
   const [slideIndex, setSlideIndex] = useState(characters.findIndex(c => c.type === selectedCharacter.type));
   const slideHandler = (direction: number) => {
     setSlideIndex((prev) => 
@@ -19,7 +19,6 @@ const SelectCharacter = ({characters, selectedCharacter, setSelectedCharacter}: 
   const slideRef = useRef<HTMLDivElement>(null);
   
   const playVoice = () => {
-    const [play] = useSound(jjangu)
     play();
   }
 
