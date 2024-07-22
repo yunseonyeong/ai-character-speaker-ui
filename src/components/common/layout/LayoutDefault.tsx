@@ -1,4 +1,6 @@
+import backgroundImage from '@image/background.png';
 import { Noto_Sans_KR } from '@next/font/google';
+import Image from 'next/image';
 import { ReactElement } from 'react';
 
 import styled from 'styled-components';
@@ -15,7 +17,9 @@ const notoSansKr = Noto_Sans_KR({
 const LayoutDefault = ({ children }: { children: ReactElement; }) => {
   return (
     <PageContainer className={`${notoSansKr.className}`}>
-      <DesktopContainer />
+      <DesktopContainer>
+      <ImgBox><Image src={backgroundImage} width={700} alt="background" objectFit='contain' objectPosition='left' className="backgroundImage"/></ImgBox>
+      </DesktopContainer>
       <MobileContainer>
         {children}
       </MobileContainer>
@@ -24,13 +28,14 @@ const LayoutDefault = ({ children }: { children: ReactElement; }) => {
 };
 
 export default LayoutDefault;
+
 const PageContainer = styled.div`
     display: flex;
     justify-content: center;
     background-color: #FFF4B6;
     height: 100vh;
     max-height: 100vh;
-    gap: 80px;
+    gap: 200px;
 `;
 
 const MobileContainer = styled.div`
@@ -51,5 +56,12 @@ const DesktopContainer = styled.div`
     justify-content: center;
     align-items: center;
     width: 428px;
+  }
+`;
+
+const ImgBox = styled.div`
+  position: relative;
+  &.background {
+    position: absolute;
   }
 `;

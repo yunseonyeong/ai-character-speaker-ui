@@ -1,36 +1,18 @@
-import Jadu from '@image/jadu.png';
-import Jjangu from '@image/jjangu.png';
-import Loopy from '@image/loopy.png';
-import Spongebob from '@image/spongebob.png';
-import { getFormattedUnixDateTime } from "@utils/common-util";
-import { BackgroundColor, GreyScale, Primary } from '@utils/constant/color';
+
+import { getFormattedUnixDateTime, getImgUrl } from "@utils/common-util";
+import { GreyScale, Primary } from '@utils/constant/color';
 import Image from 'next/image';
-import styled from 'styled-components';
-import { MdFavorite } from "react-icons/md";
 import { useState } from 'react';
-import FavoritesPopup from './FavoritesPopup';
+import { MdFavorite } from "react-icons/md";
+import styled from 'styled-components';
+import FavoritesPopup from '../favorites/FavoritesPopup';
 import ConfirmPopup from './ConfirmPopup';
 
-const HistoryItem = ({ schedule }: { schedule: any; }) => {
+const HistoryItem = ({ history }: { history: any; }) => {
 
-    const [isMarked, setIsMarked] = useState(schedule.isMarked ?? false);
+    const [isMarked, setIsMarked] = useState(history.isMarked ?? false);
     const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
-
-    const getImgUrl = (character: string) => {
-        switch (character) {
-            case 'loopy':
-                return Loopy;
-            case 'spongebob':
-                return Spongebob;
-            case 'jadu':
-                return Jadu;
-            case 'jjangu':
-                return Jjangu;
-            default:
-                return Loopy;
-        }
-    };
 
     const handleFavoriteBtn = () => {
         if (!isMarked) {
@@ -47,21 +29,21 @@ const HistoryItem = ({ schedule }: { schedule: any; }) => {
         <>
             <Wrapper>
                 <StartRow>
-                    <DateTime>{getFormattedUnixDateTime(schedule.played_time)}</DateTime>
+                    <DateTime>{getFormattedUnixDateTime(history.played_time)}</DateTime>
                     <FavoritesBtn onClick={handleFavoriteBtn} isMarked={isMarked} />
                 </StartRow>
                 <Row>
                     <ImgBox>
-                        <Image src={getImgUrl(schedule.character)} alt="character" width={100} />
+                        <Image src={getImgUrl(history.character)} alt="character" width={100} />
                     </ImgBox>
-                    <Content>{schedule.content}</Content>
+                    <Content>{history.content}</Content>
                 </Row>
             </Wrapper>
             {
-                showFavoritesPopup && <FavoritesPopup setShowFavoritesPopup={setShowFavoritesPopup} schedule={schedule} setIsMarked={setIsMarked} />
+                showFavoritesPopup && <FavoritesPopup setShowFavoritesPopup={setShowFavoritesPopup} voice={history} setIsMarked={setIsMarked} />
             }
             {
-                showConfirmPopup && <ConfirmPopup schedule={schedule} setIsMarked={setIsMarked} setShowConfirmPopup={setShowConfirmPopup} />
+                showConfirmPopup && <ConfirmPopup favorites={history} setShowConfirmPopup={setShowConfirmPopup} />
             }
         </>
     );

@@ -1,38 +1,35 @@
-import { BackgroundColor, GreyScale, Primary } from '@utils/constant/color';
-import React, { Dispatch, SetStateAction } from 'react';
-import { styled } from 'styled-components';
+import { BackgroundColor, GreyScale, Primary } from "@utils/constant/color";
+import { Dispatch, SetStateAction } from "react";
+import { styled } from "styled-components";
 
-interface FavoritesPopupProps {
-    setShowFavoritesPopup: Dispatch<SetStateAction<boolean>>;
-    setIsMarked: Dispatch<SetStateAction<boolean>>;
+interface DeletePopupProps {
+    setShowConfirmPopup: Dispatch<SetStateAction<boolean>>;
     schedule: any;
 }
 
-const FavoritesPopup = ({ setShowFavoritesPopup, setIsMarked, schedule }: FavoritesPopupProps) => {
+const DeleteSchedulePopup = ({ setShowConfirmPopup, schedule }: DeletePopupProps) => {
 
-    const handleAddFavorites = () => {
-        setIsMarked(true);
-        setShowFavoritesPopup(false);
+    const handleDeleteSchedule = () => {
+        setShowConfirmPopup(false);
     };
-
     return (
         <ModalWrapper>
             <Wrapper>
-                <Header>즐겨찾기 추가</Header>
+                <Header>예약 취소</Header>
                 <Content>
-                    <Name>이름</Name>
-                    <NameInput placeholder='이름을 지정해주세요' />
+                    예약을 취소할까요?
                 </Content>
                 <ButtonWrapper>
-                    <Button onClick={handleAddFavorites}>추가</Button>
-                    <Button onClick={() => setShowFavoritesPopup(false)}>취소</Button>
+                    <Button onClick={handleDeleteSchedule}>확인</Button>
+                    <Button onClick={() => setShowConfirmPopup(false)}>취소</Button>
                 </ButtonWrapper>
             </Wrapper>
         </ModalWrapper>
     );
 };
 
-export default FavoritesPopup;
+export default DeleteSchedulePopup;
+
 
 const ModalWrapper = styled.div`
     position: absolute;
@@ -66,6 +63,8 @@ const Content = styled.div`
     gap: 15px;
     padding: 30px 0; 
     align-items: center;
+    font-size: 16px;
+    color: ${GreyScale.dark};
 `;
 
 const ButtonWrapper = styled.div`

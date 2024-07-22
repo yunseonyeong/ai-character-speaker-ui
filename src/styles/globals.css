@@ -76,3 +76,6 @@ body {
   border-left-color: #ccc;
   right: 1em;
 }
+::-webkit-scrollbar {
+  display: none;
+}

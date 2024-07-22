@@ -1,48 +1,46 @@
 import Header from "@common/header/Header";
-import LayoutDefault from "@common/layout/LayoutDefault";
 import { GreyScale } from "@utils/constant/color";
 import { useRouter } from "next/router";
-import { ReactElement } from "react";
-import ScheduleItem from "src/components/schedule/HistoryItem";
+import ScheduleItem from "src/components/schedule/ScheduleItem";
 import { styled } from "styled-components";
 
 const Schedule = () => {
-  const router = useRouter();
-  const handleBackBtn = () => {
-    router.back();
-  };
 
-  const schedules = [{
-    played_time: 1721383038,
+const router = useRouter();
+const handleBackBtn = () => {
+    router.back();
+};
+
+const schedules = [
+    {
+    scheduled_time: 1721383038,
+    voice_id: 'loopy1',
+    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자 안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자',
+    character: 'loopy', 
+  },{
+    scheduled_time: 1721383038,
+    voice_id: 'loopy1',
+    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자 안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자',
     character: 'loopy',
-    content: '루피야 이제 밥 먹을 시간이야. 밥 먹고 또 놀자. 밥 맛있게 먹어~',
-    name: '루피 밥먹자',
-    is_marked: true
   },
   {
-    played_time: 1721383038,
-    character: 'loopy',
-    content: '루피야 이제 밥 먹을 시간이야. 밥 먹고 또 놀자. 밥 맛있게 먹어~',
-    is_marked: false
+    scheduled_time: 1721383038,
+    voice_id: 'loopy1',
+    character: 'loopy', 
+    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
   },
   {
-    played_time: 1721383038,
-    character: 'loopy',
-    content: '루피야 이제 밥 먹을 시간이야. 밥 먹고 또 놀자. 밥 맛있게 먹어~',
-    is_marked: false
-  },
-  {
-    played_time: 1721383038,
-    character: 'loopy',
-    content: '루피야 이제 밥 먹을 시간이야. 밥 먹고 또 놀자. 밥 맛있게 먹어~',
-    is_marked: false
+    scheduled_time: 1721383038,
+    voice_id: 'loopy1',
+    character: 'loopy', 
+    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
   }];
 
   return (
     <>
-      <Header showBack={true} back={handleBackBtn} title={'사용 기록'} />
+      <Header showBack={true} back={handleBackBtn} title={'예약관리'} />
       <Wrapper>
-        <SubTitle>재생완료된 내용을 확인할 수 있어요</SubTitle>
+        <SubTitle>목소리를 원하는 시간에 재생되도록 예약할 수 있어요</SubTitle>
         <Container>
           {schedules.map((schedule: any, i: number) => (
             <ScheduleItem key={i} schedule={schedule} />
@@ -50,14 +48,10 @@ const Schedule = () => {
         </Container>
       </Wrapper>
     </>
-  );
-};
+  )
+}
 
-Schedule.getLayout = function getLayout(page: ReactElement) {
-  return <LayoutDefault>{page}</LayoutDefault>;
-};
-
-export default Schedule;
+export default Schedule
 
 const Wrapper = styled.div`
   display: flex;
@@ -75,6 +69,7 @@ const Container = styled.div`
   height: calc(100vh - 200px);
   width: 100%;
   gap: 20px;
+  overflow-y: scroll;
 `;
 
 const SubTitle = styled.div`

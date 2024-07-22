@@ -1,16 +1,30 @@
+import SideBar from "@common/menu/SideBar";
 import { BackgroundColor, GreyScale, Primary } from "@utils/constant/color";
+import { useState } from "react";
+import { CgMenu } from "react-icons/cg";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { styled } from "styled-components";
 
-const Header = ({back, showBack, title}: {back: ()=>void; showBack: boolean; title?: string}) => {
+
+const Header = ({back, showBack, title, showMenu}: {back?: ()=>void; showBack: boolean; title?: string; showMenu?: boolean;}) => {
+  
+  const [showSideBar, setShowSideBar] = useState(false)
+  
   return (
-    <Container>
-      <SubContainer>
-        <HeaderLeft>{showBack && <BackBtn size={30} onClick={back} />}</HeaderLeft>
-        <HeaderCenter>{title && title}</HeaderCenter>
-        <HeaderRight></HeaderRight>
-      </SubContainer>
+    <>
+    {!showSideBar &&
+      <Container>
+        <SubContainer>
+          <HeaderLeft>{showBack && <BackBtn size={30} onClick={back} />}</HeaderLeft>
+          <HeaderCenter>{title && title}</HeaderCenter>
+          <HeaderRight>{showMenu && <MenuIcon onClick={()=>setShowSideBar(true)}/> }</HeaderRight>
+        </SubContainer>
       </Container>
+    }
+    {
+        showSideBar && <SideBar setShowSideBar={setShowSideBar}/>
+    }
+    </>
   )
 }
 
@@ -23,7 +37,7 @@ const Container = styled.div`
     width: 100%;
   }
   top: 0px;
-  z-index: 2;
+  z-index: 6;
   height: 51px;
   justify-content: center;
   display: flex;
@@ -75,3 +89,9 @@ const HeaderRight = styled.div`
 const BackBtn = styled(MdOutlineKeyboardBackspace)`
   color: ${Primary.default};
 `
+
+const MenuIcon = styled(CgMenu)`
+  width: 30px;
+  height: 30px;
+  color: ${Primary.default};
+`;

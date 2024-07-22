@@ -4,6 +4,7 @@ import Jadu from '@image/jadu.png';
 import Jjangu from '@image/jjangu.png';
 import Loopy from '@image/loopy.png';
 import SpongeBob from '@image/spongebob.png';
+import { getCharacterName } from "@utils/common-util";
 import { BackgroundColor, Primary } from "@utils/constant/color";
 import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
@@ -22,22 +23,18 @@ const VoiceMaking = () => {
   const characters = [
     {
       type: 'loopy',
-      name: '루피',
       src: Loopy
     },
     {
       type: 'spongebob',
-      name: '스폰지밥',
       src: SpongeBob
     },
     {
       type: 'jadu',
-      name: '자두',
       src: Jadu
     },
     {
       type: 'jjangu',
-      name: '짱구',
       src: Jjangu
     }
   ];
@@ -77,14 +74,14 @@ const VoiceMaking = () => {
   return (
     <>
 
-      <Header showBack={step != 5} back={handleBackBtn} />
+      <Header showBack={step != 5} back={handleBackBtn} title="목소리 만들기" />
       <Wrapper>
         <Container>
           {
             step === 0 && <SelectCharacter characters={characters} setSelectedCharacter={setSelectedCharacter} selectedCharacter={selectedCharacter} />
           }
           {
-            step === 1 && <RegisterContent character={selectedCharacter.name} voiceContent={voiceContent} onChangeVoiceContent={onChangeVoiceContent} />
+            step === 1 && <RegisterContent character={getCharacterName(selectedCharacter.type)} voiceContent={voiceContent} onChangeVoiceContent={onChangeVoiceContent} />
           }
           {
             step === 2 && <RegisterSchedule selectedDate={selectedDate} setSelectedDate={setSelectedDate} />

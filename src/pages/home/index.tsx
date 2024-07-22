@@ -1,16 +1,63 @@
-import LayoutDefault from "@common/layout/LayoutDefault"
-import { ReactElement } from "react"
-import { styled } from "styled-components"
+import Header from "@common/header/Header";
+import LayoutDefault from "@common/layout/LayoutDefault";
+import jjangu from '@mp3/jjangu.wav';
+import { BackgroundColor, GreyScale, Primary } from "@utils/constant/color";
+import { useRouter } from "next/router";
+import { ReactElement } from "react";
+import DeviceStatus from "src/components/device/DeviceStatus";
+import FavoriteItem from "src/components/favorites/FavoriteItem";
+import { styled } from "styled-components";
 
 const Home = () => {
+  const router = useRouter();
+  const home_favorites_list = [{
+    file: jjangu,
+    voice_id: 'loopy1',
+    name: '루피 밥먹자',
+    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자 안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자',
+    character: 'loopy', 
+  },{
+    file: jjangu,
+    voice_id: 'loopy1',
+    name: '루피 밥먹자',
+    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
+    character: 'loopy', 
+  },{
+    file: jjangu,
+    voice_id: 'loopy1',
+    name: '루피 밥먹자',
+    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
+    character: 'loopy', 
+  },{
+    file: jjangu,
+    voice_id: 'loopy1',
+    name: '루피 밥먹자',
+    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
+    character: 'loopy', 
+  }];
+
+
   return (
-    <Wrapper>
-      <Container></Container>
-      <BtnWrapper>
-
-
-      </BtnWrapper>
-    </Wrapper>
+    <>
+      <Header showBack={false} title={''} showMenu={true}/>
+      <Wrapper>
+        <Container>
+          <TitleRow>디바이스</TitleRow>
+          <DeviceStatus/>
+          <TitleRow>즐겨찾는</TitleRow>
+          <FavoritesDom>
+          {
+            home_favorites_list.map((favorites: any, i:number) => (
+              <FavoriteItem favorites={favorites} showDeleteBtn={false}/>
+            ))
+          }
+          </FavoritesDom>
+        </Container>
+        <BtnWrapper>
+          <Button onClick={()=>router.push('/voicemaking')}>목소리 만들기</Button>
+        </BtnWrapper>
+      </Wrapper>
+    </>
   )
 }
 
@@ -26,22 +73,55 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   overflow-y: scroll;
+  gap: 30px;
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: calc(100vh - 200px);
   width: 100%;
-  background-color: aliceblue;
 `;
 
 const BtnWrapper = styled.div`
   display: flex;
   height: 100px;
   width: 100%;
-  background-color: antiquewhite;
+  justify-content: center;
+`;
 
+const TitleRow = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 20px;
+    color: ${GreyScale.dark};
+    font-weight: bold;    
+    width: 100%;
+`;
+
+const Button = styled.div`
+  width: 90%;
+  background-color: ${Primary.default};
+  color: ${BackgroundColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  height: 65px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+`;
+
+const FavoritesDom = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 20px;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
 `;

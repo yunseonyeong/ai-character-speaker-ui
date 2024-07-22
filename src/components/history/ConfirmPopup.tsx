@@ -1,17 +1,15 @@
 import { BackgroundColor, GreyScale, Primary } from '@utils/constant/color';
-import React, { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { styled } from 'styled-components';
 
 interface ConfirmPopupProps {
     setShowConfirmPopup: Dispatch<SetStateAction<boolean>>;
-    setIsMarked: Dispatch<SetStateAction<boolean>>;
-    schedule: any;
+    favorites: any;
 }
 
-const ConfirmPopup = ({ setShowConfirmPopup, setIsMarked, schedule }: ConfirmPopupProps) => {
+const ConfirmPopup = ({ setShowConfirmPopup, favorites }: ConfirmPopupProps) => {
 
     const handleDeleteFavorites = () => {
-        setIsMarked(false);
         setShowConfirmPopup(false);
     };
     return (
@@ -19,7 +17,7 @@ const ConfirmPopup = ({ setShowConfirmPopup, setIsMarked, schedule }: ConfirmPop
             <Wrapper>
                 <Header>즐겨찾기 삭제</Header>
                 <Content>
-                    "{schedule.name}" 을/를 삭제할까요?
+                    "{favorites.name}" 을/를 삭제할까요?
                 </Content>
                 <ButtonWrapper>
                     <Button onClick={handleDeleteFavorites}>확인</Button>
