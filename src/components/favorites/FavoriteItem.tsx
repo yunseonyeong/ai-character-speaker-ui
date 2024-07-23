@@ -1,8 +1,9 @@
-import { getImgUrl } from "@utils/common-util";
+import { getAudioContext, getImgUrl } from "@utils/common-util";
 import { GreyScale, Primary } from "@utils/constant/color";
 import Image from "next/image";
 import { useState } from "react";
 import { MdDeleteForever, MdOutlinePlayCircleFilled } from "react-icons/md";
+import { getVoiceMedia } from "src/apis/favorites";
 import { styled } from "styled-components";
 import ConfirmPopup from "../history/ConfirmPopup";
 import VoiceDetailPopup from "./VoiceDetailPopup";
@@ -14,6 +15,18 @@ const FavoriteItem = ({favorites, showDeleteBtn}: {favorites: any, showDeleteBtn
     }
     const [showDetailPopup, setShowDetailPopup] = useState(false);
 
+  const requestAudioFile = async(voiceId: string) => {
+    const file = await getVoiceMedia(voiceId)
+    if (file) {
+        const audioContext = getAudioContext();
+        const audioBuffer = await audioContext.decodeAudioData(file);
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(audioContext.destination)
+        source.start();
+    }
+  }
+
     return (
         <>
         <Wrapper>
@@ -21,8 +34,8 @@ const FavoriteItem = ({favorites, showDeleteBtn}: {favorites: any, showDeleteBtn
                 <ImgBox>
                     <Image src={getImgUrl(favorites.character)} alt="character" width={100} />
                 </ImgBox>
-                <Name onClick={()=>setShowDetailPopup(true)}>{favorites.name}</Name>
-                <PlayBtn/>
+                <Name onClick={()=>setShowDetailPopup(true)}>{favorites.favorite.name}</Name>
+                <PlayBtn onClick={()=>requestAudioFile(favorites.voice_id)}/>
                 {showDeleteBtn && <DeleteBtn onClick={handleDeleteBtn}/>}
             </Row>
         </Wrapper>

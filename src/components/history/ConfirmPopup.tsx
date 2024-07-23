@@ -17,7 +17,7 @@ const ConfirmPopup = ({ setShowConfirmPopup, favorites }: ConfirmPopupProps) => 
             <Wrapper>
                 <Header>즐겨찾기 삭제</Header>
                 <Content>
-                    "{favorites.name}" 을/를 삭제할까요?
+                    "{favorites.favorite.name}" 을/를 삭제할까요?
                 </Content>
                 <ButtonWrapper>
                     <Button onClick={handleDeleteFavorites}>확인</Button>

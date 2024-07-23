@@ -15,7 +15,7 @@ const DeviceStatus = () => {
         <SpeakerIcon/>
         </Speaker>
         <Title>{device.device_name}</Title>
-        <Status is_connected={device.is_connected ?? false}>{device.is_connected ? '연결됨' : '연결 안됨'}</Status>
+        <Status>이름 변경</Status>
     </Wrapper>
   )
 }
@@ -33,10 +33,7 @@ const Wrapper = styled.div`
     padding: 10px 20px;
     justify-content: space-between;
     box-shadow: 0px 3px 6px #adadad;
-    cursor: pointer;
-    &:hover {
-        box-shadow: 0px 6px 9px #adadad;
-    }
+
 `;
 
 const SpeakerIcon = styled(RiSpeaker2Fill)`
@@ -64,9 +61,9 @@ const Speaker = styled.div`
     height: 70px;
 `;
 
-const Status = styled.div<{is_connected: boolean}>`
+const Status = styled.div`
     color: ${BackgroundColor};
-    background-color: ${props => props.is_connected ? Primary.default : GreyScale.dark };
+    background-color: ${Primary.default};
     font-size: 13px;
     font-weight: 700;
     padding: 10px;
@@ -75,4 +72,8 @@ const Status = styled.div<{is_connected: boolean}>`
     align-items: center;
     width: 100px;
     border-radius: 29px;
+    cursor: pointer;
+    &:hover {
+        box-shadow: 0px 6px 9px #adadad;
+    }
 `;

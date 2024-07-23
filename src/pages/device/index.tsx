@@ -28,10 +28,10 @@ const Device = () => {
       <Wrapper>
         <SubTitle>스피커 연결 상태를 관리해요</SubTitle>
         <Container>
-                <Row><Title>연결 상태</Title><Status is_connected={device_status.is_connected ?? false}>{device_status.is_connected ? '연결됨' : '연결 안됨'}</Status>
-                </Row>
-                <Row><Title>스피커 이름</Title><NameInput value={device_status.name} onChange={onChangeName}/></Row>
-                <Row>
+                {/* <Row><Title>연결 상태</Title><Status is_connected={device_status.is_connected ?? false}>{device_status.is_connected ? '연결됨' : '연결 안됨'}</Status>
+                </Row> */}
+                <Row><Title>스피커 이름</Title><NameInput value={name} onChange={onChangeName}/></Row>
+                {/* <Row>
                     <Title>IP 주소</Title>
                     <IpRow>
                     <IpInput 
@@ -51,9 +51,9 @@ const Device = () => {
                         onChange={(e: any) => handleChangeIpAdress(3,e)}
                     />
                     </IpRow>
-                </Row>
+                </Row> */}
                 <ButtonWrapper>
-                    <Button>연결하기</Button>
+                    <Button>이름 변경</Button>
                 </ButtonWrapper>
         </Container>
       </Wrapper>

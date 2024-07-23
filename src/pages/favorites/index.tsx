@@ -1,9 +1,9 @@
 import Header from "@common/header/Header";
 import LayoutDefault from "@common/layout/LayoutDefault";
-import jjangu from '@mp3/jjangu.wav';
 import { GreyScale } from "@utils/constant/color";
 import { useRouter } from "next/router";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
+import { getFavorites } from "src/apis/favorites";
 import FavoriteItem from "src/components/favorites/FavoriteItem";
 import { styled } from "styled-components";
 
@@ -13,34 +13,17 @@ const Favorites = () => {
   const handleBackBtn = () => {
     router.back();
   };
+  
+  const [favoritesArray, setFavoritesArray] = useState<any[]>([])
 
-  const favorites_list = [{
-    file: jjangu,
-    voice_id: 'loopy1',
-    name: '루피 밥먹자',
-    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자 안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자',
-    character: 'loopy', 
-  },{
-    file: jjangu,
-    voice_id: 'loopy1',
-    name: '루피 밥먹자',
-    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
-    character: 'loopy', 
-  },
-  {
-    file: jjangu,
-    voice_id: 'loopy1',
-    name: '루피 밥먹자',
-    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
-    character: 'loopy', 
-  },
-  {
-    file: jjangu,
-    voice_id: 'loopy1',
-    name: '루피 밥먹자',
-    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
-    character: 'loopy', 
-  }];
+  const getFavoritesArray = async() => {
+    const favoritesList = await getFavorites();
+    setFavoritesArray(favoritesList)
+  }
+
+  useEffect(()=>{
+    getFavoritesArray();
+  }, [])
   
   return (
     <>
@@ -48,7 +31,7 @@ const Favorites = () => {
       <Wrapper>
         <SubTitle>자주 사용하는 목소리는 즐겨찾기로 저장하세요</SubTitle>
         <Container>
-          {favorites_list.map((favorites: any, i: number) => (
+          {favoritesArray.map((favorites: any, i: number) => (
             <FavoriteItem key={i} favorites={favorites} showDeleteBtn={true}/>
           ))}
         </Container>

@@ -51,3 +51,9 @@ export const getCharacterName = (character: string) => {
             return '알수없음';
     }
 };
+
+export const getAudioContext = () => {
+    AudioContext = window.AudioContext; /* || window.webkitAudioContext */
+    const audioContent = new AudioContext();
+    return audioContent;
+}

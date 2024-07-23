@@ -10,7 +10,7 @@ import ConfirmPopup from './ConfirmPopup';
 
 const HistoryItem = ({ history }: { history: any; }) => {
 
-    const [isMarked, setIsMarked] = useState(history.isMarked ?? false);
+    const [isMarked, setIsMarked] = useState(history.favorite.like ?? false);
     const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
 
@@ -29,7 +29,7 @@ const HistoryItem = ({ history }: { history: any; }) => {
         <>
             <Wrapper>
                 <StartRow>
-                    <DateTime>{getFormattedUnixDateTime(history.played_time)}</DateTime>
+                    <DateTime>{getFormattedUnixDateTime(history.updated_at)}</DateTime>
                     <FavoritesBtn onClick={handleFavoriteBtn} isMarked={isMarked} />
                 </StartRow>
                 <Row>
@@ -55,6 +55,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 90%
 `;
 const Row = styled.div`
     width: 100%;
