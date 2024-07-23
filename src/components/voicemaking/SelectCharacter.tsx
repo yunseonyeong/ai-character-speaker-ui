@@ -1,5 +1,5 @@
 
-import jjangu from '@mp3/jjangu.wav';
+import zzangu from '@mp3/zzangu.wav';
 import { GreyScale } from "@utils/constant/color";
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -10,7 +10,7 @@ import useSound from "use-sound";
 
 const SelectCharacter = ({characters, selectedCharacter, setSelectedCharacter}: {characters: any[]; selectedCharacter: any; setSelectedCharacter: React.Dispatch<React.SetStateAction<any>>}
 ) => {
-  const [play] = useSound(jjangu)
+  const [play] = useSound(zzangu)
   const [slideIndex, setSlideIndex] = useState(characters.findIndex(c => c.type === selectedCharacter.type));
   const slideHandler = (direction: number) => {
     setSlideIndex((prev) => 

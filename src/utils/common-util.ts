@@ -1,7 +1,7 @@
 import Jadu from '@image/jadu.png';
-import Jjangu from '@image/jjangu.png';
 import Loopy from '@image/loopy.png';
 import Spongebob from '@image/spongebob.png';
+import zzangu from '@image/zzangu.png';
 
 export function getFormattedUnixDateTime(timestamp: number) {
     const daykr = ["일", "월", "화", "수", "목", "금", "토"];
@@ -30,8 +30,8 @@ export const getImgUrl = (character: string) => {
             return Spongebob;
         case 'jadu':
             return Jadu;
-        case 'jjangu':
-            return Jjangu;
+        case 'zzangu':
+            return zzangu;
         default:
             return Loopy;
     }
@@ -45,7 +45,7 @@ export const getCharacterName = (character: string) => {
             return '스폰지밥';
         case 'jadu':
             return '자두';
-        case 'jjangu':
+        case 'zzangu':
             return '짱구';
         default:
             return '알수없음';

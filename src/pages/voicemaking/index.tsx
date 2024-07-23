@@ -1,9 +1,9 @@
 import Header from "@common/header/Header";
 import LayoutDefault from "@common/layout/LayoutDefault";
 import Jadu from '@image/jadu.png';
-import Jjangu from '@image/jjangu.png';
 import Loopy from '@image/loopy.png';
 import SpongeBob from '@image/spongebob.png';
+import zzangu from '@image/zzangu.png';
 import { getCharacterName } from "@utils/common-util";
 import { BackgroundColor, Primary } from "@utils/constant/color";
 import { useRouter } from "next/router";
@@ -34,8 +34,8 @@ const VoiceMaking = () => {
       src: Jadu
     },
     {
-      type: 'jjangu',
-      src: Jjangu
+      type: 'zzangu',
+      src: zzangu
     }
   ];
   let today = new Date()
