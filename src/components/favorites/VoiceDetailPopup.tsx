@@ -16,9 +16,8 @@ const VoiceDetailPopup = ({setShowDetailPopup, voice}: VoiceDetailPopupProps) =>
             <Header>목소리 상세정보</Header>
             <Content>
                 <Row><Title>캐릭터</Title><Name>{getCharacterName(voice.character)}</Name></Row>
-                <Row><Title>제목</Title><Name>{voice.name}</Name></Row>
+                <Row><Title>제목</Title><Name>{voice.favorite.name}</Name></Row>
                 <Row><Title>내용</Title><Name>{voice.content}</Name></Row>
-                <Row><Title>예약 정보</Title><Name>{voice.scheduled_time ?? '없음'}</Name></Row>
             </Content>
             <ButtonWrapper>
                 <Button onClick={() => setShowDetailPopup(false)}>닫기</Button>

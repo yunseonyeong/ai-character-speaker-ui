@@ -1,10 +1,11 @@
 import Header from "@common/header/Header";
 import { BackgroundColor, GreyScale } from "@utils/constant/color";
 import Link from "next/link";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { LuHistory } from "react-icons/lu";
 import { MdFavorite } from 'react-icons/md';
+import { getDevice } from "src/apis/device";
 import DeviceStatus from "src/components/device/DeviceStatus";
 
 import { styled } from "styled-components";
@@ -14,9 +15,19 @@ interface SideBarProps {
 }
 
 const SideBar = ({setShowSideBar}: SideBarProps) => {
+  const [deviceName, setDeviceName] = useState('')
     const handleBackBtn = () => {
       setShowSideBar(false)
     };
+
+    const getDeviceStatus = async() => {
+      const deviceName = await getDevice()
+      setDeviceName(deviceName)
+    }
+
+    useEffect(()=>{
+      getDeviceStatus();
+    }, [])
   
   return (
     <>
@@ -24,7 +35,7 @@ const SideBar = ({setShowSideBar}: SideBarProps) => {
         <Header showBack={true} back={handleBackBtn} title='메뉴'/>
         <Container>
             <TitleRow>디바이스</TitleRow>
-            <DeviceStatus/>
+            <DeviceStatus name={deviceName}/>
             <TitleRow>메뉴</TitleRow>
             <MenuDom>
                 <MenuRow href={'/favorites'}><MdFavorite size={25}/>즐겨찾기</MenuRow>

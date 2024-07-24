@@ -2,6 +2,10 @@ import Jadu from '@image/jadu.png';
 import Loopy from '@image/loopy.png';
 import Spongebob from '@image/spongebob.png';
 import zzangu from '@image/zzangu.png';
+import JaduWav from '@mp3/jadu.wav';
+import LoopyWav from '@mp3/loopy.wav';
+import SpongebobWav from '@mp3/spongebob.wav';
+import ZzanguWav from '@mp3/zzangu.wav';
 
 export function getFormattedUnixDateTime(timestamp: number) {
     const daykr = ["일", "월", "화", "수", "목", "금", "토"];
@@ -15,7 +19,7 @@ export function getFormattedUnixDateTime(timestamp: number) {
     const ampm = hours < 12 ? "오전" : "오후";
     hours = hours > 12 ? hours - 12 : hours;
 
-    return `${year}-${month}-${date} (${daykr[day]}) ${ampm} ${hours}:${minutes}`;
+    return `${year}-${month}-${date} (${daykr[day]}) ${ampm}  ${hours<10?`0${hours}`:hours}:${minutes<10?`0${minutes}`:minutes}`;
 }
 
 export function datetimeToTimestamp(dateTime: string) {
@@ -34,6 +38,21 @@ export const getImgUrl = (character: string) => {
             return zzangu;
         default:
             return Loopy;
+    }
+};
+
+export const getWavFile = (character: string) => {
+    switch (character) {
+        case 'loopy':
+            return LoopyWav;
+        case 'spongebob':
+            return SpongebobWav;
+        case 'jadu':
+            return JaduWav;
+        case 'zzangu':
+            return ZzanguWav;
+        default:
+            return ZzanguWav;
     }
 };
 

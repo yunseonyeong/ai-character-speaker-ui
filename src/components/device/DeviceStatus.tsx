@@ -3,19 +3,17 @@ import { useRouter } from "next/router";
 import { RiSpeaker2Fill } from "react-icons/ri";
 import styled from "styled-components";
 
-const DeviceStatus = () => {
-    const router = useRouter()
-    const device = {
-        device_name: "타요의 스피커",
-        is_connected: false
-    }
+const DeviceStatus = ({name}: {name: string}) => {
+    
+    const router = useRouter();
+
   return (
-    <Wrapper onClick={()=>router.push('/device')}>
+    <Wrapper >
         <Speaker>
         <SpeakerIcon/>
         </Speaker>
-        <Title>{device.device_name}</Title>
-        <Status>이름 변경</Status>
+        <Title>{name}</Title>
+        <Status onClick={()=>router.push('/device')}>이름 변경</Status>
     </Wrapper>
   )
 }

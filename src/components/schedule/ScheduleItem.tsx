@@ -6,7 +6,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { styled } from "styled-components";
 import DeleteSchedulePopup from "./DeleteSchedulePopup";
 
-const ScheduleItem = ({schedule}: {schedule: any}) => {
+const ScheduleItem = ({getSchedules, schedule}: {getSchedules: any; schedule: any}) => {
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
     const handleDeleteBtn = () => {
         setShowConfirmPopup(true);
@@ -24,13 +24,13 @@ const ScheduleItem = ({schedule}: {schedule: any}) => {
                     <DeleteBtn onClick={handleDeleteBtn}/>
                     </Row>
                 </SubRow>
-                <SubRow><Title>예약 시간</Title><Name>{getFormattedUnixDateTime(schedule.scheduled_time)}</Name></SubRow>
+                <SubRow><Title>예약 시간</Title><Name>{getFormattedUnixDateTime(schedule.schedule.timestamp)}</Name></SubRow>
                 <SubRow><Title>목소리 내용</Title><Name>{schedule.content}</Name></SubRow>
                 </Content>
         </Wrapper>
         
         {
-            showConfirmPopup && <DeleteSchedulePopup schedule={schedule} setShowConfirmPopup={setShowConfirmPopup} />
+            showConfirmPopup && <DeleteSchedulePopup getSchedules={getSchedules} schedule={schedule} setShowConfirmPopup={setShowConfirmPopup} />
         }
     </>
   )

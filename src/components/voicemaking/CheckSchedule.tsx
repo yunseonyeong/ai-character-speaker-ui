@@ -16,13 +16,12 @@ const CheckSchedule = ({voiceSchedule, voiceContent, character}: {voiceSchedule:
         <Name>{getCharacterName(character.type)}</Name>
       </Character>
       <Row>
-      <Content>
-        {voiceContent}
-      </Content>
-      
+        <Content>
+          {voiceContent}
+        </Content>
       </Row>
       <ContentRow>
-      {voiceSchedule}
+        {voiceSchedule}
       </ContentRow>
     </Background>
     </>

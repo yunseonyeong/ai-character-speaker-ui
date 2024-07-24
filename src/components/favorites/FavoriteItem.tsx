@@ -3,12 +3,12 @@ import { GreyScale, Primary } from "@utils/constant/color";
 import Image from "next/image";
 import { useState } from "react";
 import { MdDeleteForever, MdOutlinePlayCircleFilled } from "react-icons/md";
-import { getVoiceMedia } from "src/apis/favorites";
+import { deleteFavoritesById, getVoiceMedia } from "src/apis/favorites";
 import { styled } from "styled-components";
 import ConfirmPopup from "../history/ConfirmPopup";
 import VoiceDetailPopup from "./VoiceDetailPopup";
 
-const FavoriteItem = ({favorites, showDeleteBtn}: {favorites: any, showDeleteBtn: boolean}) => {
+const FavoriteItem = ({getFavoritesArray, favorites, showDeleteBtn}: {getFavoritesArray: any; favorites: any, showDeleteBtn: boolean}) => {
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
     const handleDeleteBtn = () => {
         setShowConfirmPopup(true);
@@ -27,6 +27,11 @@ const FavoriteItem = ({favorites, showDeleteBtn}: {favorites: any, showDeleteBtn
     }
   }
 
+  const deleteFavorites = async() => {
+    await deleteFavoritesById(favorites.voice_id, favorites.favorite.name);
+    await getFavoritesArray();
+  }
+ 
     return (
         <>
         <Wrapper>
@@ -41,7 +46,7 @@ const FavoriteItem = ({favorites, showDeleteBtn}: {favorites: any, showDeleteBtn
         </Wrapper>
         
         {
-            showConfirmPopup && <ConfirmPopup favorites={favorites} setShowConfirmPopup={setShowConfirmPopup} />
+            showConfirmPopup && <ConfirmPopup confirm={deleteFavorites} favorites={favorites} setShowConfirmPopup={setShowConfirmPopup} />
         }
         {
             showDetailPopup && <VoiceDetailPopup voice={favorites} setShowDetailPopup={setShowDetailPopup}/>

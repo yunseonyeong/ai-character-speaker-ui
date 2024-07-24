@@ -16,7 +16,8 @@ const Header = ({back, showBack, title, showMenu}: {back?: ()=>void; showBack: b
   
   return (
     <>
-    {!showSideBar &&
+    {showSideBar ?
+    <SideBar setShowSideBar={setShowSideBar}/> :
       <Container>
         <SubContainer>
           <HeaderLeft>{showBack ? <BackBtn size={30} onClick={back} /> : <LogoDom onClick={()=>router.push('/home')}><Image width={45} height={45} src={Logo} alt="logo" /></LogoDom>}</HeaderLeft>
@@ -24,9 +25,6 @@ const Header = ({back, showBack, title, showMenu}: {back?: ()=>void; showBack: b
           <HeaderRight>{showMenu && <MenuIcon onClick={()=>setShowSideBar(true)}/> }</HeaderRight>
         </SubContainer>
       </Container>
-    }
-    {
-        showSideBar && <SideBar setShowSideBar={setShowSideBar}/>
     }
     </>
   )

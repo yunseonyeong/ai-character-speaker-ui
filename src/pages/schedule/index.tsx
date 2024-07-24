@@ -1,52 +1,48 @@
 import Header from "@common/header/Header";
+import Loading from "@common/loading/Loading";
 import { GreyScale } from "@utils/constant/color";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { getAllSchedules } from "src/apis/schedule";
 import ScheduleItem from "src/components/schedule/ScheduleItem";
 import { styled } from "styled-components";
 
 const Schedule = () => {
+  const [loading, setLoading] = useState(false);
 
 const router = useRouter();
 const handleBackBtn = () => {
     router.back();
 };
 
-const schedules = [
-    {
-    scheduled_time: 1721383038,
-    voice_id: 'loopy1',
-    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자 안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자',
-    character: 'loopy', 
-  },{
-    scheduled_time: 1721383038,
-    voice_id: 'loopy1',
-    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자 안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자안녕 우리 밥먹어야지? 밥먹자 밥먹자',
-    character: 'loopy',
-  },
-  {
-    scheduled_time: 1721383038,
-    voice_id: 'loopy1',
-    character: 'loopy', 
-    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
-  },
-  {
-    scheduled_time: 1721383038,
-    voice_id: 'loopy1',
-    character: 'loopy', 
-    content: '안녕 우리 밥먹어야지? 밥먹자 밥먹자',
-  }];
+const [schedules, setScheduels] = useState<any[]>([]);
+
+const getSchedules = async() => {
+  setLoading(true);
+  const data = await getAllSchedules();
+  setScheduels(data)
+  setInterval(()=>{
+    setLoading(false)
+  }, 700)
+}
+
+  useEffect(() => {
+    getSchedules()
+  }, [])
 
   return (
     <>
-      <Header showBack={true} back={handleBackBtn} title={'예약관리'} />
+      <Header showBack={true} back={handleBackBtn} title={'예약관리'} showMenu={true} />
+      {loading ? <Loading/> : 
       <Wrapper>
         <SubTitle>목소리를 원하는 시간에 재생되도록 예약할 수 있어요</SubTitle>
         <Container>
-          {schedules.map((schedule: any, i: number) => (
-            <ScheduleItem key={i} schedule={schedule} />
+          {schedules.length > 0 && schedules.map((schedule: any, i: number) => (
+            <ScheduleItem getSchedules={getSchedules} key={i} schedule={schedule} />
           ))}
         </Container>
       </Wrapper>
+      }
     </>
   )
 }
@@ -79,3 +75,7 @@ const SubTitle = styled.div`
   color: ${GreyScale.default};
   font-size: 16px;
 `;
+
+function setLoading(arg0: boolean) {
+  throw new Error("Function not implemented.");
+}

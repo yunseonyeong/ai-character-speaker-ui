@@ -5,13 +5,16 @@ import { styled } from 'styled-components';
 interface ConfirmPopupProps {
     setShowConfirmPopup: Dispatch<SetStateAction<boolean>>;
     favorites: any;
+    confirm: any;
 }
 
-const ConfirmPopup = ({ setShowConfirmPopup, favorites }: ConfirmPopupProps) => {
+const ConfirmPopup = ({ confirm, setShowConfirmPopup, favorites }: ConfirmPopupProps) => {
 
     const handleDeleteFavorites = () => {
         setShowConfirmPopup(false);
+        confirm();
     };
+    
     return (
         <ModalWrapper>
             <Wrapper>

@@ -1,43 +1,64 @@
 import Header from "@common/header/Header";
 import LayoutDefault from "@common/layout/LayoutDefault";
+import Loading from "@common/loading/Loading";
 import { BackgroundColor, GreyScale, Primary } from "@utils/constant/color";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
+import { getDevice } from "src/apis/device";
 import { getFavorites } from "src/apis/favorites";
 import DeviceStatus from "src/components/device/DeviceStatus";
 import FavoriteItem from "src/components/favorites/FavoriteItem";
 import { styled } from "styled-components";
 
 const Home = () => {
-
+  const [deviceName, setDeviceName] = useState('')
   const [favoritesArray, setFavoritesArray] = useState<any[]>([])
+  const [loading, setLoading] = useState(false);
 
   const getFavoritesArray = async() => {
+    setLoading(true)
     let favoritesList = await getFavorites();
     if (favoritesList.length > 4) {
       favoritesList = favoritesList.slice(0,4)
     }
-    setFavoritesArray(favoritesList)
+    setInterval(()=> {
+      setFavoritesArray(favoritesList)
+      setLoading(false)
+    }, 400)
+    
   }
 
   useEffect(()=>{
     getFavoritesArray();
+    getDeviceStatus();
+
   }, [])
-  
+
+  const getDeviceStatus = async() => {
+    const deviceName = await getDevice()
+    setDeviceName(deviceName)
+  }
+
   const router = useRouter();
 
   return (
     <>
-      <Header showBack={false} title={''} showMenu={true}/>
+      <Header showMenu={true} showBack={false} title={''} />
+      {
+        loading ? <Loading/>
+      :
       <Wrapper>
         <Container>
           <TitleRow>디바이스</TitleRow>
-          <DeviceStatus/>
-          <TitleRow>즐겨찾는</TitleRow>
+          <DeviceStatus name={deviceName}/>
+          <TitleRow>즐겨찾는 
+            <MoreBtn onClick={()=>router.push('/favorites')}>more<Arrow/></MoreBtn>
+          </TitleRow>
           <FavoritesDom>
           {
             favoritesArray && favoritesArray.map((favorites: any, i:number) => (
-              <FavoriteItem key={i}favorites={favorites} showDeleteBtn={false}/>
+              <FavoriteItem getFavoritesArray={getFavoritesArray}  key={i}favorites={favorites} showDeleteBtn={false}/>
             ))
           }
           </FavoritesDom>
@@ -46,6 +67,7 @@ const Home = () => {
           <Button onClick={()=>router.push('/voicemaking')}>목소리 만들기</Button>
         </BtnWrapper>
       </Wrapper>
+}
     </>
   )
 }
@@ -83,7 +105,7 @@ const BtnWrapper = styled.div`
 
 const TitleRow = styled.div`
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     font-size: 20px;
     color: ${GreyScale.dark};
@@ -114,3 +136,15 @@ const FavoritesDom = styled.div`
   width: 100%;
   gap: 20px;
 `;
+
+const MoreBtn = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+`;
+
+const Arrow = styled(IoIosArrowForward)`
+  margin-top: 4px;
+`

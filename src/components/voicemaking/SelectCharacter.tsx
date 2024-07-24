@@ -1,5 +1,4 @@
-
-import zzangu from '@mp3/zzangu.wav';
+import { getWavFile } from "@utils/common-util";
 import { GreyScale } from "@utils/constant/color";
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -10,7 +9,8 @@ import useSound from "use-sound";
 
 const SelectCharacter = ({characters, selectedCharacter, setSelectedCharacter}: {characters: any[]; selectedCharacter: any; setSelectedCharacter: React.Dispatch<React.SetStateAction<any>>}
 ) => {
-  const [play] = useSound(zzangu)
+
+  const [play] = useSound(getWavFile(selectedCharacter.type))
   const [slideIndex, setSlideIndex] = useState(characters.findIndex(c => c.type === selectedCharacter.type));
   const slideHandler = (direction: number) => {
     setSlideIndex((prev) => 
@@ -151,3 +151,4 @@ const ImgBox = styled.div`
 const Character = styled.div`
   width: 100%;
 `;
+

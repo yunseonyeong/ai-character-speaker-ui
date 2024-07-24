@@ -1,30 +1,44 @@
+import Loading from "@common/loading/Loading";
 import { BackgroundColor, GreyScale, Primary } from "@utils/constant/color";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { deleteScheduleById } from "src/apis/schedule";
 import { styled } from "styled-components";
 
 interface DeletePopupProps {
     setShowConfirmPopup: Dispatch<SetStateAction<boolean>>;
     schedule: any;
+    getSchedules: any
 }
 
-const DeleteSchedulePopup = ({ setShowConfirmPopup, schedule }: DeletePopupProps) => {
-
-    const handleDeleteSchedule = () => {
-        setShowConfirmPopup(false);
+const DeleteSchedulePopup = ({ setShowConfirmPopup, schedule, getSchedules }: DeletePopupProps) => {
+    const [loading, setLoading] = useState(false);
+    const handleDeleteSchedule = async() => {
+        setLoading(true)
+        await deleteScheduleById(schedule.voice_id)
+        await getSchedules();
+        setInterval(()=> {
+            setLoading(false)
+            setShowConfirmPopup(false);
+        }, 500);
+              
     };
     return (
+        <>
+        {loading && <Loading/>}
         <ModalWrapper>
             <Wrapper>
                 <Header>예약 취소</Header>
                 <Content>
                     예약을 취소할까요?
                 </Content>
+                
                 <ButtonWrapper>
                     <Button onClick={handleDeleteSchedule}>확인</Button>
                     <Button onClick={() => setShowConfirmPopup(false)}>취소</Button>
                 </ButtonWrapper>
             </Wrapper>
         </ModalWrapper>
+        </>
     );
 };
 

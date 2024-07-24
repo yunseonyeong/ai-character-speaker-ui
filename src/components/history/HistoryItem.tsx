@@ -2,15 +2,16 @@
 import { getFormattedUnixDateTime, getImgUrl } from "@utils/common-util";
 import { GreyScale, Primary } from '@utils/constant/color';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdFavorite } from "react-icons/md";
+import { deleteFavoritesById } from "src/apis/favorites";
 import styled from 'styled-components';
 import FavoritesPopup from '../favorites/FavoritesPopup';
 import ConfirmPopup from './ConfirmPopup';
 
-const HistoryItem = ({ history }: { history: any; }) => {
+const HistoryItem = ({ getAllHistories, history }: { getAllHistories: any; history: any; }) => {
 
-    const [isMarked, setIsMarked] = useState(history.favorite.like ?? false);
+    const [isMarked, setIsMarked] = useState(false);
     const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
 
@@ -24,6 +25,17 @@ const HistoryItem = ({ history }: { history: any; }) => {
             setShowConfirmPopup(true);
         }
     };
+
+    const deleteFavorites = async() => {
+        await deleteFavoritesById(history.voice_id, history.favorite.name);
+        await getAllHistories()
+    }
+
+    useEffect(()=>{
+        if(history) {
+            setIsMarked(history.favorite.like)
+        }
+    }, [history])
 
     return (
         <>
@@ -40,10 +52,10 @@ const HistoryItem = ({ history }: { history: any; }) => {
                 </Row>
             </Wrapper>
             {
-                showFavoritesPopup && <FavoritesPopup setShowFavoritesPopup={setShowFavoritesPopup} voice={history} setIsMarked={setIsMarked} />
+                showFavoritesPopup && <FavoritesPopup getAllHistories={getAllHistories} setShowFavoritesPopup={setShowFavoritesPopup} voice={history} setIsMarked={setIsMarked} />
             }
             {
-                showConfirmPopup && <ConfirmPopup favorites={history} setShowConfirmPopup={setShowConfirmPopup} />
+                showConfirmPopup && <ConfirmPopup confirm={deleteFavorites} favorites={history} setShowConfirmPopup={setShowConfirmPopup} />
             }
         </>
     );
@@ -55,12 +67,12 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 90%
+    width: 90%;
+    justify-content: space-between;
 `;
 const Row = styled.div`
     width: 100%;
     display: flex;
-    justify-content: center;
     gap: 10px;
 `;
 

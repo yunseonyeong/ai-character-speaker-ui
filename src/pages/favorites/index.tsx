@@ -1,5 +1,6 @@
 import Header from "@common/header/Header";
 import LayoutDefault from "@common/layout/LayoutDefault";
+import Loading from "@common/loading/Loading";
 import { GreyScale } from "@utils/constant/color";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
@@ -8,7 +9,7 @@ import FavoriteItem from "src/components/favorites/FavoriteItem";
 import { styled } from "styled-components";
 
 const Favorites = () => {
-
+  const [loading, setLoading] = useState(false)
   const router = useRouter();
   const handleBackBtn = () => {
     router.back();
@@ -17,8 +18,12 @@ const Favorites = () => {
   const [favoritesArray, setFavoritesArray] = useState<any[]>([])
 
   const getFavoritesArray = async() => {
+    setLoading(true)
     const favoritesList = await getFavorites();
-    setFavoritesArray(favoritesList)
+    setInterval(()=> {
+      setFavoritesArray(favoritesList)
+      setLoading(false)
+    }, 700)
   }
 
   useEffect(()=>{
@@ -27,15 +32,17 @@ const Favorites = () => {
   
   return (
     <>
-      <Header showBack={true} back={handleBackBtn} title={'즐겨찾기'} />
+      <Header showMenu={true} showBack={true} back={handleBackBtn} title={'즐겨찾기'} />
+      {loading ? <Loading/> :
       <Wrapper>
         <SubTitle>자주 사용하는 목소리는 즐겨찾기로 저장하세요</SubTitle>
         <Container>
           {favoritesArray.map((favorites: any, i: number) => (
-            <FavoriteItem key={i} favorites={favorites} showDeleteBtn={true}/>
+            <FavoriteItem getFavoritesArray={getFavoritesArray} key={i} favorites={favorites} showDeleteBtn={true}/>
           ))}
         </Container>
       </Wrapper>
+      }
     </>
   )
 }
@@ -62,6 +69,7 @@ const Container = styled.div`
   height: calc(100vh - 200px);
   width: 100%;
   gap: 20px;
+  overflow-y: scroll;
 `;
 
 const SubTitle = styled.div`

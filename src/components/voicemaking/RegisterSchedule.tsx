@@ -10,7 +10,7 @@ import { styled } from "styled-components";
 
 const RegisterSchedule = (props: any) => {
   const datepickerRef = useRef(null);
-  
+  const locale = new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' });
   
   const handleTimeChange = (selectedTime: any) => {
     const hours = selectedTime.getHours();
@@ -62,7 +62,7 @@ const RegisterSchedule = (props: any) => {
         selected={props.selectedTime}
         showTimeSelect
         showTimeSelectOnly
-        timeIntervals={30}
+        timeIntervals={5}
         timeCaption="Time"
         dateFormat="HH:mm"
         onChange={(selectedTime) => handleTimeChange(selectedTime)}

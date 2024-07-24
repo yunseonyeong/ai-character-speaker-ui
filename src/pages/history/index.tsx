@@ -1,5 +1,6 @@
 import Header from "@common/header/Header";
 import LayoutDefault from "@common/layout/LayoutDefault";
+import Loading from "@common/loading/Loading";
 import { GreyScale } from "@utils/constant/color";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
@@ -9,6 +10,7 @@ import { styled } from "styled-components";
 
 const History = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false)
   const handleBackBtn = () => {
     router.back();
   };
@@ -16,8 +18,12 @@ const History = () => {
   const [histories, setHistories] = useState<any[]>([]);
 
   const getAllHistories = async() => {
+    setLoading(true);
     const data = await getHistories();
     setHistories(data)
+    setInterval(()=> {
+      setLoading(false)
+    }, 500)
   }
 
   useEffect(() => {
@@ -27,15 +33,17 @@ const History = () => {
 
   return (
     <>
-      <Header showBack={true} back={handleBackBtn} title={'사용 기록'} />
+      <Header showMenu={true} showBack={true} back={handleBackBtn} title={'사용 기록'} />
+      {loading ? <Loading/> :
       <Wrapper>
         <SubTitle>재생완료된 내용을 확인할 수 있어요</SubTitle>
         <Container>
           {histories.map((history: any, i: number) => (
-            <HistoryItem key={i} history={history} />
+            <HistoryItem getAllHistories={getAllHistories} key={i} history={history} />
           ))}
         </Container>
       </Wrapper>
+      }
     </>
   );
 };

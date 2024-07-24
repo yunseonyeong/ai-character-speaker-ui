@@ -45,6 +45,8 @@ const MobileContainer = styled.div`
     max-width: 428px !important;
     padding: 0px 30px;
     position: relative;
+    max-height: 100vh;
+    overflow-y: hidden;
 `;
 
 const DesktopContainer = styled.div`

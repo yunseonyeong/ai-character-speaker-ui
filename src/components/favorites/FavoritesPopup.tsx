@@ -1,21 +1,30 @@
 import { BackgroundColor, GreyScale, Primary } from '@utils/constant/color';
 import { Dispatch, SetStateAction } from 'react';
+import { addFavoritesById } from 'src/apis/favorites';
 import useInput from 'src/hooks/useInput';
 import { styled } from 'styled-components';
 
 interface FavoritesPopupProps {
     setShowFavoritesPopup: Dispatch<SetStateAction<boolean>>;
     setIsMarked: Dispatch<SetStateAction<boolean>>;
+    getAllHistories: any;
     voice: any;
 }
 
-const FavoritesPopup = ({ setShowFavoritesPopup, setIsMarked, voice }: FavoritesPopupProps) => {
+const FavoritesPopup = ({ getAllHistories, setShowFavoritesPopup, setIsMarked, voice }: FavoritesPopupProps) => {
     const [nameValue, onChangeNameValue] = useInput('')
-    const handleAddFavorites = () => {
+    const handleAddFavorites = async() => {
         if (nameValue.length > 0) {
-        setIsMarked(true);
-        setShowFavoritesPopup(false);
+            try {
+                await addFavoritesById(voice.voice_id, nameValue);
+            } catch (e: any) {
+                console.error(e)
+            }
+            setIsMarked(true);
+            setShowFavoritesPopup(false);
+            getAllHistories()
         }
+
     };
 
     return (

@@ -1,5 +1,6 @@
 import Header from "@common/header/Header";
 import LayoutDefault from "@common/layout/LayoutDefault";
+import Loading from "@common/loading/Loading";
 import Jadu from '@image/jadu.png';
 import Loopy from '@image/loopy.png';
 import SpongeBob from '@image/spongebob.png';
@@ -8,6 +9,8 @@ import { getCharacterName } from "@utils/common-util";
 import { BackgroundColor, Primary } from "@utils/constant/color";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
+import { createSchedule } from "src/apis/schedule";
+import { createVoice } from "src/apis/voice";
 import CheckSchedule from "src/components/voicemaking/CheckSchedule";
 import CheckVoice from "src/components/voicemaking/CheckVoice";
 import Complete from "src/components/voicemaking/Complete";
@@ -22,6 +25,10 @@ const VoiceMaking = () => {
   const [step, setStep] = useState(0);
   const characters = [
     {
+      type: 'zzangu',
+      src: zzangu
+    },
+    {
       type: 'loopy',
       src: Loopy
     },
@@ -33,23 +40,22 @@ const VoiceMaking = () => {
       type: 'jadu',
       src: Jadu
     },
-    {
-      type: 'zzangu',
-      src: zzangu
-    }
+    
   ];
   let today = new Date()
-  const [hours, minutes] = '00:00'.split(":").map(Number)
+  const [hours, minutes] = '12:00'.split(":").map(Number)
   const dateWithTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes)
   const [selectedCharacter, setSelectedCharacter] = useState(characters[0]);
   const [voiceContent, onChangeVoiceContent] = useInput('');
   const [voiceSchedule, setVoiceSchedule] = useState<any>('');
+  const [timestamp, setTimestamp] = useState<number>(0);
   const router = useRouter();
 
   const [selectedTime, setSelectedTime] = useState<Date>(dateWithTime);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date()); // 현재 날짜를 디폴트 값으로!  
   const [completeSubtitle, setCompleteSubtitle] = useState('');
   const [completeTitle, setCompleteTitle] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleNextBtn = (offset: number) => {
     setStep((prev) => prev + offset);
@@ -62,13 +68,35 @@ const VoiceMaking = () => {
     if (step === 4) setStep(2);
   };
 
-  const handlePlayBtn = () => {
+  const handlePlayBtn = async() => {
+    setLoading(true)
     setCompleteTitle('목소리 재생을 요청했어요!');
     setCompleteSubtitle('스피커를 확인하세요');
-    handleNextBtn(2);
+    setStep(5);
+    try {
+      let item = {
+        character: selectedCharacter.type,
+        content: voiceContent
+      }
+      await createVoice(item)
+    } catch (e: any) {
+      console.error(e)
+    }
+    
+    setLoading(false)
   };
 
-  const handleScheduleBtn = () => {
+  const handleScheduleBtn = async () => {
+    try {
+      const item = {
+        character: selectedCharacter.type,
+        content: voiceContent,
+        timestamp: timestamp
+      }
+      await createSchedule(item);
+    } catch (error: any) {
+      console.error(error);
+    }
     setCompleteTitle('예약이 완료되었어요!');
     setCompleteSubtitle('');
     handleNextBtn(1);
@@ -83,20 +111,31 @@ const VoiceMaking = () => {
     const day = selectedDate.getDay();
     let hours = selectedTime.getHours();
     const minutes = selectedTime.getMinutes();
+    let result = new Date(year, month, date, hours, minutes)
+
     const ampm = hours < 12 ? "오전" : "오후";
     hours = hours > 12 ? hours - 12 : hours;
     
-
     let value = `${year}-${month}-${date} (${daykr[day]}) ${ampm} ${hours<10?`0${hours}`:hours}:${minutes<10?`0${minutes}`:minutes}`
-
+    const localeString = result.toLocaleString('en', {timeZone: "Asia/Seoul"})
+    setTimestamp(Date.parse(localeString) / 1000);
     setVoiceSchedule(value)
   }, [selectedDate, selectedTime])
 
+  useEffect(()=> {
+    if(step == 0){
+    setLoading(true);
+    setInterval(()=>{
+      setLoading(false)
+    }, 700)
+  }
+  }, [])
 
   return (
     <>
 
-      <Header showBack={step != 5} back={handleBackBtn} title="목소리 만들기" />
+      <Header showMenu={true} showBack={step != 5} back={handleBackBtn} title="목소리 만들기" />
+      {loading ? <Loading/> : 
       <Wrapper>
         <Container>
           {
@@ -127,6 +166,7 @@ const VoiceMaking = () => {
           {step === 5 && <Button onClick={() => router.push('/home')}>완료</Button>}
         </BtnWrapper>
       </Wrapper>
+      }
     </>
   );
 };

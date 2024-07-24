@@ -13,3 +13,24 @@ export async function getVoiceMedia(voiceId: string) {
     }).then(res => res.data);
     return file;
 }
+
+export async function deleteFavoritesById(voiceId: string, name: string) {
+    try {
+        await axios.put(`${url}/favorites/${voiceId}`, {
+            name: name
+        });
+    }
+    catch (e: any) {
+        console.error(e);
+    }
+}
+
+export async function addFavoritesById(voiceId: string, name: string) {
+    try {
+        await axios.put(`${url}/favorites/${voiceId}`, {
+            name: name
+        });
+    } catch (e: any) {
+        console.error(e);
+    }
+}
