@@ -16,7 +16,7 @@ const DeleteSchedulePopup = ({ setShowConfirmPopup, schedule, getSchedules }: De
         setLoading(true)
         await deleteScheduleById(schedule.voice_id)
         await getSchedules();
-        setInterval(()=> {
+        setTimeout(()=> {
             setLoading(false)
             setShowConfirmPopup(false);
         }, 500);

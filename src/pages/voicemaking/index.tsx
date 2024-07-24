@@ -125,7 +125,7 @@ const VoiceMaking = () => {
   useEffect(()=> {
     if(step == 0){
     setLoading(true);
-    setInterval(()=>{
+    setTimeout(()=>{
       setLoading(false)
     }, 700)
   }

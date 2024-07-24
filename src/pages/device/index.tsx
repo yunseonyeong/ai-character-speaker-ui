@@ -23,7 +23,7 @@ const Device = () => {
     useEffect(()=>{
         setLoading(true)
         getDeviceStatus()
-        setInterval(()=>{
+        setTimeout(()=>{
             setLoading(false)
         }, 500)
     }, [])

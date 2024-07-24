@@ -21,7 +21,7 @@ const getSchedules = async() => {
   setLoading(true);
   const data = await getAllSchedules();
   setScheduels(data)
-  setInterval(()=>{
+  setTimeout(()=>{
     setLoading(false)
   }, 700)
 }

@@ -9,7 +9,12 @@ export async function getFavorites() {
 
 export async function getVoiceMedia(voiceId: string) {
     const file = await axios.get(`${url}/voice/${voiceId}`, {
-        responseType: 'arraybuffer'
+        responseType: 'arraybuffer',
+        headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+        }
     }).then(res => res.data);
     return file;
 }

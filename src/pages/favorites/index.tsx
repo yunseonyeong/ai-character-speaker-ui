@@ -20,8 +20,8 @@ const Favorites = () => {
   const getFavoritesArray = async() => {
     setLoading(true)
     const favoritesList = await getFavorites();
-    setInterval(()=> {
-      setFavoritesArray(favoritesList)
+    setFavoritesArray(favoritesList)
+    setTimeout(()=> {
       setLoading(false)
     }, 700)
   }
@@ -29,7 +29,7 @@ const Favorites = () => {
   useEffect(()=>{
     getFavoritesArray();
   }, [])
-  
+
   return (
     <>
       <Header showMenu={true} showBack={true} back={handleBackBtn} title={'즐겨찾기'} />

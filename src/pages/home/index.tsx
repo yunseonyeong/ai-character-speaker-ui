@@ -22,7 +22,7 @@ const Home = () => {
     if (favoritesList.length > 4) {
       favoritesList = favoritesList.slice(0,4)
     }
-    setInterval(()=> {
+    setTimeout(()=> {
       setFavoritesArray(favoritesList)
       setLoading(false)
     }, 400)

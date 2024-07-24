@@ -21,7 +21,7 @@ const History = () => {
     setLoading(true);
     const data = await getHistories();
     setHistories(data)
-    setInterval(()=> {
+    setTimeout(()=> {
       setLoading(false)
     }, 500)
   }
