@@ -100,6 +100,10 @@ const PlayBtn = styled(MdOutlinePlayCircleFilled)`
     height: 30px;
     cursor: pointer;
     color: ${Primary.default};
+    border-radius: 20px;
+    &:hover {
+        box-shadow: 3px 3px 3px 3px #d4d4d4;
+    }
 `;
 
 const DeleteBtn = styled(MdDeleteForever)`

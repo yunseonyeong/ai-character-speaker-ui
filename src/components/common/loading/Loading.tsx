@@ -1,12 +1,21 @@
 import spinner from '@image/loading.gif';
+import { GreyScale } from '@utils/constant/color';
 import Image from 'next/image';
 import styled from 'styled-components';
 
-const Loading = () => {
+const Loading = ({voiceMaking}: {voiceMaking?: boolean}) => {
   return (
 
     <LoadingSpinner>
       <Wrapper>
+        {voiceMaking && <Voice>
+          <Row>
+          목소리 생성 중이에요
+          </Row>
+          <Row>
+            조금만 기다려 주세요
+          </Row>
+          </Voice>}
         <Image  src={spinner} alt="loading"></Image>
       </Wrapper>  
     </LoadingSpinner>
@@ -41,4 +50,22 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+`;
+
+const Row = styled.div`
+  display: flex;
+  font-weight: 700;
+  color: ${GreyScale.dark};
+`;
+
+const Voice = styled.div`
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  background-color: white;
+  border-radius: 10px;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 20px;
 `;

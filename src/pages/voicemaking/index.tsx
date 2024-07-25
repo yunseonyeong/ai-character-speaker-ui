@@ -43,12 +43,13 @@ const VoiceMaking = () => {
     
   ];
   let today = new Date()
-  const [hours, minutes] = '12:00'.split(":").map(Number)
+  const [hours, minutes] = '14:00'.split(":").map(Number)
   const dateWithTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes)
   const [selectedCharacter, setSelectedCharacter] = useState(characters[0]);
   const [voiceContent, onChangeVoiceContent] = useInput('');
   const [voiceSchedule, setVoiceSchedule] = useState<any>('');
   const [timestamp, setTimestamp] = useState<number>(0);
+  const [loadingContent, setLoadingContent] = useState(false);
   const router = useRouter();
 
   const [selectedTime, setSelectedTime] = useState<Date>(dateWithTime);
@@ -70,6 +71,7 @@ const VoiceMaking = () => {
 
   const handlePlayBtn = async() => {
     setLoading(true)
+    setLoadingContent(true)
     setCompleteTitle('목소리 재생을 요청했어요!');
     setCompleteSubtitle('스피커를 확인하세요');
     setStep(5);
@@ -84,6 +86,7 @@ const VoiceMaking = () => {
     }
     
     setLoading(false)
+    setLoadingContent(false)
   };
 
   const handleScheduleBtn = async () => {
@@ -135,7 +138,7 @@ const VoiceMaking = () => {
     <>
 
       <Header showMenu={true} showBack={step != 5} back={handleBackBtn} title="목소리 만들기" />
-      {loading ? <Loading/> : 
+      {loading ? <Loading voiceMaking={loadingContent}/> : 
       <Wrapper>
         <Container>
           {

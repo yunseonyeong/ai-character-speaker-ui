@@ -11,6 +11,8 @@ const ScheduleItem = ({getSchedules, schedule}: {getSchedules: any; schedule: an
     const handleDeleteBtn = () => {
         setShowConfirmPopup(true);
     }
+
+    
   return (
     <>
         <Wrapper>
@@ -73,6 +75,7 @@ const Title = styled.div`
     font-size: 16px;
     font-weight: 700;
 `;
+
 
 const Name = styled.div`
     font-size: 16px;

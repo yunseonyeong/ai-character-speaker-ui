@@ -37,7 +37,7 @@ const SubTitle = styled.div`
   font-size: 16px;
 `;
 
-const ContentInput = styled.input`
+const ContentInput = styled.textarea`
   width: 100%;
   height: 300px;
   margin: 30px 0;
@@ -45,6 +45,10 @@ const ContentInput = styled.input`
   border-radius: 10px;
   border: 1px solid ${GreyScale.default};
   color: ${GreyScale.dark};
+  font-family: '__Noto_Sans_KR_b9dedd';
   padding: 10px;
+  outline: none;
+  white-space: pre-wrap;
+  resize: none;
   outline: none;
 `;

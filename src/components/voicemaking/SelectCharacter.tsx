@@ -48,8 +48,8 @@ const SelectCharacter = ({characters, selectedCharacter, setSelectedCharacter}: 
           }}
         >
           {characters.map((item, index) => (
-            <Character>
-            <ImgBox key={index} onClick={()=>playVoice()}>
+            <Character key={index}>
+            <ImgBox onClick={()=>playVoice()}>
               <Image src={item.src} alt="character"/>
             </ImgBox>
             <Name>{item.name}</Name>

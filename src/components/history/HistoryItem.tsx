@@ -1,10 +1,10 @@
 
-import { getFormattedUnixDateTime, getImgUrl } from "@utils/common-util";
+import { getAudioContext, getFormattedUnixDateTime, getImgUrl } from "@utils/common-util";
 import { GreyScale, Primary } from '@utils/constant/color';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { MdFavorite } from "react-icons/md";
-import { deleteFavoritesById } from "src/apis/favorites";
+import { MdFavorite, MdOutlinePlayCircleFilled } from "react-icons/md";
+import { deleteFavoritesById, getVoiceMedia } from "src/apis/favorites";
 import styled from 'styled-components';
 import FavoritesPopup from '../favorites/FavoritesPopup';
 import ConfirmPopup from './ConfirmPopup';
@@ -37,12 +37,27 @@ const HistoryItem = ({ getAllHistories, history }: { getAllHistories: any; histo
         }
     }, [history])
 
+    const requestAudioFile = async(voiceId: string) => {
+        const file = await getVoiceMedia(voiceId)
+        if (file) {
+            const audioContext = getAudioContext();
+            const audioBuffer = await audioContext.decodeAudioData(file);
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioContext.destination)
+            source.start();
+        }
+      }
+
     return (
         <>
             <Wrapper>
                 <StartRow>
                     <DateTime>{getFormattedUnixDateTime(history.updated_at)}</DateTime>
+                    <BtnDom>
+                    <PlayBtn onClick={()=>requestAudioFile(history.voice_id)}/>
                     <FavoritesBtn onClick={handleFavoriteBtn} isMarked={isMarked} />
+                    </BtnDom>
                 </StartRow>
                 <Row>
                     <ImgBox>
@@ -104,4 +119,20 @@ const Content = styled.div`
     word-break: break-all;
     white-space: normal;
     padding: 10px;
+`;
+
+const PlayBtn = styled(MdOutlinePlayCircleFilled)`
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    color: ${Primary.default};
+    border-radius: 20px;
+    &:hover {
+        box-shadow: 3px 3px 3px 3px #d4d4d4;
+    }
+`;
+
+const BtnDom = styled.div`
+    display: flex;
+    gap:  10px;
 `;

@@ -143,6 +143,14 @@ const MoreBtn = styled.div`
   font-size: 14px;
   text-align: center;
   cursor: pointer;
+  border: 1px solid ${GreyScale.default};
+  border-radius: 20px;
+  padding : 5px 7px;
+  justify-content: center;
+  margin-right: 5px;
+  &:hover {
+    box-shadow: 1px 1px 1px 1px #d4d4d4;
+  }
 `;
 
 const Arrow = styled(IoIosArrowForward)`

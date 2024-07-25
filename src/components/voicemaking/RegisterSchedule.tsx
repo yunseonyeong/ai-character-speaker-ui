@@ -5,13 +5,15 @@ import Image from "next/image";
 import { useRef } from "react";
 import ReactDatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
+import useInput from 'src/hooks/useInput';
 import { styled } from "styled-components";
 
 
 const RegisterSchedule = (props: any) => {
   const datepickerRef = useRef(null);
   const locale = new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' });
-  
+  const [hours, onChangeHours] = useInput<number>(0);
+  const [min, onChangeMin] = useInput<number>(0);
   const handleTimeChange = (selectedTime: any) => {
     const hours = selectedTime.getHours();
     const minutes = selectedTime.getMinutes();
@@ -54,6 +56,8 @@ const RegisterSchedule = (props: any) => {
     <Column>
     <Text>시간</Text>
     <div className="datepicker" >
+      {/* <input type='number' value={hours} onChange={onChangeHours}></input> */}
+      {/* <input type='number' value={min} onChange={onChangeMin}></input> */}
       <ReactDatePicker
         ref={datepickerRef}
         shouldCloseOnSelect
@@ -62,7 +66,7 @@ const RegisterSchedule = (props: any) => {
         selected={props.selectedTime}
         showTimeSelect
         showTimeSelectOnly
-        timeIntervals={5}
+        timeIntervals={1}
         timeCaption="Time"
         dateFormat="HH:mm"
         onChange={(selectedTime) => handleTimeChange(selectedTime)}
